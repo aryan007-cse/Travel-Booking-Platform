@@ -1,0 +1,77 @@
+const mongoose = require("mongoose");
+
+const bookingSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
+
+    flight: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Flight",
+      required: true,
+    },
+
+    passengers: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+
+        age: {
+          type: Number,
+          required: true,
+        },
+
+        gender: {
+          type: String,
+          enum: ["Male", "Female", "Other"],
+        },
+
+        seatNumber: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
+
+    totalPassengers: {
+      type: Number,
+      required: true,
+    },
+
+    totalAmount: {
+      type: Number,
+      required: true,
+    },
+
+    bookingStatus: {
+      type: String,
+      enum: ["Pending", "Confirmed", "Cancelled"],
+      default: "Confirmed",
+    },
+
+    paymentStatus: {
+      type: String,
+      enum: ["Pending", "Paid", "Failed"],
+      default: "Pending",
+    },
+    refundAmount: {
+        type: Number,
+        default: 0
+    },
+    cancellationReason: {
+        type: String,
+        default: ""
+    },
+  },
+  {
+    timestamps: true,
+  }
+  
+);
+
+module.exports = mongoose.model("Booking", bookingSchema);
